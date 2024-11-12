@@ -70,7 +70,25 @@ const dishes = [
         type: "first-course"
     }
 ];
+const types=[
+    {
+        value:"starter",
+        name:"Entrante"
+    },
+    {
+        value:"first-course",
+        name:"Primer Plato"
+    },
+    {
+        value:"second-course",
+        name:"Segundo Plato"
+    },
+    {
+        value:"dessert",
+        name:"Postre"
+    }
 
+]
 let LAST_ID = dishes.length;
 
 function getAll() {
@@ -113,6 +131,7 @@ export const functions = {
     getById,
     create,
     update,
-    remove
+    remove,
+    types
 }
 export default functions;

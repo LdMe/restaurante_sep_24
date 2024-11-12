@@ -1,0 +1,8 @@
+*{
+    color:red;
+    background-color: #fabada;
+}
+
+.dish-list{
+    display: flex;
+}

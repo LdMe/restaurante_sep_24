@@ -1,0 +1,17 @@
+extends ../layout
+
+block content 
+    h1 Crear Nuevo Plato 
+    form(action="/dish/new", method="post") 
+        label(for="name") Nombre del plato *
+        input(id="name", type="text", name="name",placeholder="Ej: Paella Valenciana") 
+        label(for="description") Descripción 
+        textarea(id="description",name="description",placeholder="Describe los ingredientes y preparación...")  
+        label(for="price") Precio (€) *
+        input(id="price",type="number", name="price",placeholder="0.00",step=".01") 
+        label(for="type") Tipo
+        select(id="type",name="type") 
+            each type of types 
+                option(value=type.value)= type.name 
+        button(type="button") Cancelar 
+        button(type="submit") Crear Plato
