@@ -14,7 +14,7 @@ router.get("/:id/update",dishController.updateForm);
 
 router.post("/:id/update",dishController.update);
 
-router.get("/:id/delete",dishController.remove);
+router.post("/:id/delete",dishController.remove);
 
 
 export default router;

@@ -1,0 +1,16 @@
+services:
+
+  db:
+    container_name: restaurante_mysql
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+    ports:
+      - 3308:3306
+    volumes:
+      - ./database/scripts:/docker-entrypoint-initdb.d:ro
+      - ./database/conf/mycustom.cnf:/etc/mysql/conf.d/custom.cnf:ro

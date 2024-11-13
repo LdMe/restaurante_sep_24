@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/LdMe/restaurante_sep_24#readme",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "mysql2": "^3.11.4",
     "pug": "^3.0.3"
   },
   "devDependencies": {

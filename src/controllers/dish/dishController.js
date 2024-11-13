@@ -1,15 +1,15 @@
 import dishModel from "../../models/dishModel.js"
 
-function getAll(req,res){
+async function getAll(req,res){
    //res.json( dishModel.getAll());
-   const dishes = dishModel.getAll();
+   const dishes = await dishModel.getAll();
    res.render("dish/list",{dishes});
 }
 
-function getById(req,res){
+async function getById(req,res){
     const id = parseInt(req.params.id);
-    console.log(id,dishModel.getById(id));
-    res.json(dishModel.getById(id));
+    const dish = await dishModel.getById(id);
+    res.render("dish/show",{dish})
 }
 
 function createForm(req,res){
@@ -105,24 +105,23 @@ function updateForm(req,res){
     res.send(form);
 }
 
-function create(req,res){
+async function create(req,res){
     const {name,description,price,type} = req.body;
-    const newDish = dishModel.create(name,description,price*100,type);
-
-   // res.json(newDish);
-   res.render("dish/show",{dish:newDish})
+    const newDish = await dishModel.create(name,description,price*100,type);
+   res.redirect("/dish");
 }
 
 function update(req,res){
     const {name,description,price,type} = req.body;
     const id = parseInt(req.params.id);
-    const updatedDish = dishModel.update(id,{name,description,price,type});
-    res.json(updatedDish);
+    const newPrice = price * 100;
+    const updatedDish = dishModel.update(id,{name,description,price:newPrice,type});
+    res.redirect("/dish/"+id);
 }
 
-function remove(req,res){
+async function remove(req,res){
     const id = parseInt(req.params.id);
-    const removedDish = dishModel.remove(id);
+    const removedDish = await dishModel.remove(id);
     res.json(removedDish);
 }
 
