@@ -6,3 +6,11 @@
 /* .dish-list{
     display: flex;
 } */
+
+.dish{
+    border: 1px solid black;
+}
+
+.selected {
+    background-color: aqua;
+}

@@ -1,0 +1,8 @@
+extends ../layout
+
+block content 
+    h1 Ingredientes disponibles
+    a(href="/ingredient/new") Nuevo Ingrediente 
+    section(class="ingredient-list")
+        each ingredient in ingredients
+            include card

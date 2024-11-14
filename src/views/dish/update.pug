@@ -1,0 +1,20 @@
+extends ../layout
+
+block content 
+    h1 Actualizar Plato 
+    form(action=`/dish/${dish.dish_id}/update`, method="post") 
+        label(for="name") Nombre del plato *
+        input(id="name", type="text", name="name",placeholder="Ej: Paella Valenciana", value=dish.name) 
+        label(for="description") Descripción 
+        textarea(id="description",name="description",placeholder="Describe los ingredientes y preparación..." )= dish.description  
+        label(for="price") Precio (€) *
+        input(id="price",type="number", name="price",placeholder="0.00",step=".01" value=dish.price/100) 
+        label(for="type") Tipo
+        select(id="type",name="type") 
+            each type of types 
+                option(value=type.value, selected=dish.type==type.value)= type.name 
+        a(href=`/dish/${dish.dish_id}`) 
+            button(type="button") Cancelar 
+        button(type="submit") Guardar Plato
+    form(action=`/dish/${dish.dish_id}/delete`, method="post") 
+        button(type="submit") Borrar

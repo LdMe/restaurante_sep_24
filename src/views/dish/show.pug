@@ -1,7 +1,11 @@
 extends ../layout
 
 block content 
-    h2(id="titulo",class="dish-title title")= dish.name
-    p= dish.description 
-    p= dish.price 
-    p= dish.type
+    include card
+    h3 Ingredientes
+    ul
+        each ingredient in dish.ingredients 
+            li
+                p= ingredient.name
+    a(href=`/dish/${dish.dish_id}/update`)
+        button Editar 

@@ -1,128 +1,54 @@
-import dishModel from "../../models/dishModel.js"
+//import dishModel from "../../models/dishModel.js"
+import dishModel from "../../models/dishModel.js";
+import Ingredient from "../../models/ingredientModel.js";
 
-async function getAll(req,res){
-   //res.json( dishModel.getAll());
-   const dishes = await dishModel.getAll();
-   res.render("dish/list",{dishes});
+
+async function getAll(){
+   const dishes = await dishModel.findAll({
+    include: Ingredient
+   });
+   return dishes;
 }
 
-async function getById(req,res){
-    const id = parseInt(req.params.id);
-    const dish = await dishModel.getById(id);
-    res.render("dish/show",{dish})
+async function getById(id){
+    const dish = await dishModel.findByPk(id,{
+      include: Ingredient
+     });
+    return dish;
 }
 
-function createForm(req,res){
-    res.render("dish/new",{types:dishModel.types})
+async function create(name,description,price,type,ingredients){
+    const newDish = await dishModel.create({
+      name,
+      description,
+      price:price*100,
+      type,
+    });
+    await newDish.addIngredients(ingredients.split(","))
+   return newDish;
 }
 
-function updateForm(req,res){
-    const form = `
-    <form class="max-w-md mx-auto p-4 bg-white shadow rounded-lg" method="POST" action="/dish">
-      <h2 class="text-xl font-bold mb-4">Actualizar Plato</h2>
-      
-      <input type="hidden" id="dish_id" name="dish_id">
-      
-      <div class="mb-4">
-        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
-          Nombre del plato *
-        </label>
-        <input 
-          type="text" 
-          id="name" 
-          name="name"
-          required
-          maxlength="50"
-          class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
-          placeholder="Ej: Paella Valenciana"
-        >
-      </div>
-    
-      <div class="mb-4">
-        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">
-          Descripción
-        </label>
-        <textarea 
-          id="description"
-          name="description"
-          maxlength="200"
-          class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 h-24"
-          placeholder="Describe los ingredientes y preparación..."
-        ></textarea>
-      </div>
-    
-      <div class="mb-4">
-        <label for="price" class="block text-sm font-medium text-gray-700 mb-1">
-          Precio (€) *
-        </label>
-        <input 
-          type="number"
-          id="price"
-          name="price"
-          required
-          min="0"
-          step="0.01"
-          class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
-          placeholder="0.00"
-        >
-      </div>
-    
-      <div class="mb-4">
-        <label for="type" class="block text-sm font-medium text-gray-700 mb-1">
-          Tipo de plato *
-        </label>
-        <select 
-          id="type"
-          name="type"
-          required
-          class="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">Selecciona un tipo</option>
-          <option value="starter">Entrante</option>
-          <option value="first-course">Primer plato</option>
-          <option value="second-course">Segundo plato</option>
-          <option value="dessert">Postre</option>
-        </select>
-      </div>
-    
-      <div class="flex justify-end gap-2">
-        <button 
-          type="button" 
-          class="px-4 py-2 border rounded hover:bg-gray-100"
-          onclick="handleCancel()"
-        >
-          Cancelar
-        </button>
-        <button 
-          type="submit" 
-          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Actualizar Plato
-        </button>
-      </div>
-    </form>
-    `;
-    res.send(form);
+async function addIngredients(id,ingredients){
+  const dish = await dishModel.findByPk(id);
+  await dish.addIngredients(ingredients);
+  return dish;
 }
 
-async function create(req,res){
-    const {name,description,price,type} = req.body;
-    const newDish = await dishModel.create(name,description,price*100,type);
-   res.redirect("/dish");
-}
-
-function update(req,res){
-    const {name,description,price,type} = req.body;
-    const id = parseInt(req.params.id);
+async function update(id,name,description,price,type){
     const newPrice = price * 100;
-    const updatedDish = dishModel.update(id,{name,description,price:newPrice,type});
-    res.redirect("/dish/"+id);
+    const dish = await dishModel.findByPk(id);
+    dish.name=name;
+    dish.description=description;
+    dish.price=newPrice;
+    dish.type=type;
+    await dish.save();
+    return dish;
 }
 
-async function remove(req,res){
-    const id = parseInt(req.params.id);
-    const removedDish = await dishModel.remove(id);
-    res.json(removedDish);
+async function remove(id){
+    const dishToRemove = await dishModel.findByPk(id);
+    await dishToRemove.destroy();
+    return dishToRemove;
 }
 
 
@@ -130,8 +56,6 @@ export const functions = {
     getAll,
     getById,
     create,
-    createForm,
-    updateForm,
     update,
     remove
 }

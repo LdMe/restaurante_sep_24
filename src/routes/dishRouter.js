@@ -1,20 +1,20 @@
 import {Router} from "express";
-import dishController from "../controllers/dish/dishController.js"
+import dishViewController from "../controllers/dish/dishViewController.js"
 const router = Router();
 
-router.get("/",dishController.getAll);
+router.get("/",dishViewController.getAll);
 
-router.get("/new",dishController.createForm);
+router.get("/new",dishViewController.createForm);
 
-router.get("/:id",dishController.getById);
+router.get("/:id",dishViewController.getById);
 
-router.post("/new",dishController.create);
+router.post("/new",dishViewController.create);
 
-router.get("/:id/update",dishController.updateForm);
+router.get("/:id/update",dishViewController.updateForm);
 
-router.post("/:id/update",dishController.update);
+router.post("/:id/update",dishViewController.update);
 
-router.post("/:id/delete",dishController.remove);
+router.post("/:id/delete",dishViewController.remove);
 
 
 export default router;

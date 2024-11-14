@@ -5,4 +5,5 @@ block content
     a(href="/dish/new") Nuevo plato 
     section(class="dish-list")
         each dish in dishes
-            include card
+            a(href=`/dish/${dish.dish_id}`) 
+                include card

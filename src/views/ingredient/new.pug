@@ -2,7 +2,7 @@ extends ../layout
 
 block content 
     h1 Crear Nuevo Plato 
-    form(id="new-dish" action="/dish/new", method="post") 
+    form(action="/dish/new", method="post") 
         label(for="name") Nombre del plato *
         input(id="name", type="text", name="name",placeholder="Ej: Paella Valenciana") 
         label(for="description") Descripción 
@@ -11,14 +11,7 @@ block content
         input(id="price",type="number", name="price",placeholder="0.00",step=".01") 
         label(for="type") Tipo
         select(id="type",name="type") 
-            each type in types 
+            each type of types 
                 option(value=type.value)= type.name 
-        label(for="ingredients-list") Ingredientes 
-        select(id="ingredients-list", name="ingredients-list" multiple)
-            each ingredient in ingredients 
-                  option(class="ingredient-option", value=ingredient.ingredient_id)= ingredient.name 
-        input(type="hidden" name="ingredients")
-        a(href=`/dish`) 
-            button(type="button") Cancelar 
+        button(type="button") Cancelar 
         button(type="submit") Crear Plato
-    script(src="/js/ingredient_selector.js") 
