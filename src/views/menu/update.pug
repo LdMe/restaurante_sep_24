@@ -1,0 +1,16 @@
+extends ../layout
+
+block content 
+    h1 Actualizar Menú 
+    form(action=`/menu/${menu.menu_id}/update`, method="post") 
+        label(for="name") Nombre del menú *
+        input(id="name", type="text", name="name",placeholder="Ej: Menú del día", value=menu.name) 
+       
+        label(for="price") Precio (€) *
+        input(id="price",type="number", name="price",placeholder="0.00",step=".01" value=menu.price/100) 
+      
+        a(href=`/menu/${menu.menu_id}`) 
+            button(type="button") Cancelar 
+        button(type="submit") Guardar Menú
+    form(action=`/menu/${menu.menu_id}/delete`, method="post") 
+        button(type="submit") Borrar

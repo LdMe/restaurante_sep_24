@@ -1,0 +1,10 @@
+extends ../layout
+
+block content 
+    img(src="../../public/resources/gif.gif" alt="elgifquetemereces" style='width:300px; heigth:auto;')
+    h1 Menus disponibles
+    a(href="/menu/new") Nuevo menu 
+    section(class="menu-list")
+        each menu in menus
+            a(href=`/menu/${menu.menu_id}`) 
+                include card
