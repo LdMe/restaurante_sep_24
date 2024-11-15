@@ -1,0 +1,6 @@
+article(class="menu")
+    img(src="../../public/resources/cocos-bartender.gif" alt="otroregalico" style='width:500px; heigth:auto;' )
+    h2(id="titulo" class="menu-title title")= menu.name
+    p #{menu.price / 100}€
+    a(href=`/menu/${menu.menu_id}/update`)
+        button Editar 

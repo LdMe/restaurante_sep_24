@@ -16,6 +16,8 @@ app.get('/', (req, res) => {
 
 app.use("/", router);
 
+app.use('/public/resources', express.static(process.cwd() + '/public/resources'));
+
 
 
 

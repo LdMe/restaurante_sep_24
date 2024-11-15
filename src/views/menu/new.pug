@@ -1,0 +1,16 @@
+extends ../layout
+
+block content 
+    h1 Crear Nuevo Menú 
+    form(id="new-menu" action="/menu/new", method="post") 
+        label(for="name") Nombre del menú *
+        input(id="name", type="text", name="name",placeholder="Ej: Menú del día") 
+        
+        label(for="price") Precio (€) *
+        input(id="price",type="number", name="price",placeholder="0.00",step=".01") 
+        
+     
+        a(href=`/menu`) 
+            button(type="button") Cancelar 
+            button(type="submit") Crear Menú
+    
