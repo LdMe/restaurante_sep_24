@@ -1,24 +1,36 @@
-extends ../layout
+extends layout
 
-block content 
-    h1 Crear Nuevo Plato 
-    form(id="new-dish" action="/dish/new", method="post") 
-        label(for="name") Nombre del plato *
-        input(id="name", type="text", name="name",placeholder="Ej: Paella Valenciana") 
-        label(for="description") Descripción 
-        textarea(id="description",name="description",placeholder="Describe los ingredientes y preparación...")  
-        label(for="price") Precio (€) *
-        input(id="price",type="number", name="price",placeholder="0.00",step=".01") 
+block content
+  h1 Nuevo Plato
+
+  form(action="/dish/new" method="POST")
+    .form-group
+      label(for="name") Nombre
+      input#name.form-control(type="text" name="name" required)
+
+    .form-group
+      label(for="description") Descripción
+      textarea#description.form-control(name="description")
+
+    .grid-2
+      .form-group
+        label(for="price") Precio
+        input#price.form-control(type="number" name="price" step="0.01" required)
+
+      .form-group
         label(for="type") Tipo
-        select(id="type",name="type") 
-            each type in types 
-                option(value=type.value)= type.name 
-        label(for="ingredients-list") Ingredientes 
-        select(id="ingredients-list", name="ingredients-list" multiple)
-            each ingredient in ingredients 
-                  option(class="ingredient-option", value=ingredient.ingredient_id)= ingredient.name 
-        input(type="hidden" name="ingredients")
-        a(href=`/dish`) 
-            button(type="button") Cancelar 
-        button(type="submit") Crear Plato
-    script(src="/js/ingredient_selector.js") 
+        select#type.form-control(name="type" required)
+          each type in types
+            option(value=type.value)= type.name
+
+    .form-group
+      label Ingredientes
+      .ingredients-list
+        each ingredient in ingredients
+          label
+            input(type="checkbox" name="ingredients" value=ingredient.ingredient_id)
+            span= ingredient.name
+
+    .actions
+      button.btn.btn-primary(type="submit") Crear
+      a.btn.btn-secondary(href="/dish") Cancelar

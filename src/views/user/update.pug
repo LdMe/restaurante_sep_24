@@ -1,0 +1,50 @@
+extends ../layout
+
+block content
+  h1 Editar Usuario
+
+
+  form(action=`/user/${user.user_id}/update` method="POST")
+    .form-group
+      label(for="name") Nombre *
+      input#name.form-control(
+        type="text"
+        name="name"
+        value=user.name
+        required
+      )
+
+    .form-group
+      label(for="lastName") Apellidos
+      input#lastName.form-control(
+        type="text"
+        name="lastName"
+        value=user.last_name
+      )
+
+    .form-group
+      label(for="email") Email *
+      input#email.form-control(
+        type="email"
+        name="email"
+        value=user.email
+        required
+      )
+
+    .form-group
+      label(for="tel") Teléfono
+      input#tel.form-control(
+        type="tel"
+        name="tel"
+        value=user.tel
+      )
+
+    .form-group
+      label(for="role") Rol *
+      select#role.form-control(name="role" required)
+        each role in roles
+          option(value=role selected=role===user.role)= role
+
+    .actions
+      button.btn.btn-primary(type="submit") Actualizar
+      a.btn.btn-secondary(href=`/user/${user.user_id}`) Cancelar

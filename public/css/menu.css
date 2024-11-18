@@ -1,0 +1,125 @@
+/* public/css/menu.css */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.menu-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.menu-card h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.menu-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #2c5282;
+    margin: 1rem 0;
+}
+
+.dishes-list,
+.drinks-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.dishes-list li,
+.drinks-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.dishes-grid,
+.drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.dish-item,
+.drink-item {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.dish-item label,
+.drink-item label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.dish-item input[type="checkbox"],
+.drink-item input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.dish-name,
+.drink-name {
+    flex-grow: 1;
+}
+
+.dish-price,
+.drink-price {
+    color: #2c5282;
+    font-weight: 500;
+}
+
+.dish-type,
+.drink-type {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #e2e8f0;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.actions form {
+    margin: 0;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}

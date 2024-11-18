@@ -1,11 +1,25 @@
-extends ../layout
+extends layout
 
-block content 
-    include card
-    h3 Ingredientes
-    ul
-        each ingredient in dish.ingredients 
-            li
-                p= ingredient.name
-    a(href=`/dish/${dish.dish_id}/update`)
-        button Editar 
+block content
+  .page-header
+    h1= dish.name
+    .actions
+      a.btn.btn-secondary(href="/dish") Volver
+      a.btn.btn-primary(href=`/dish/${dish.dish_id}/update`) Editar
+      a.btn.btn-secondary(href=`/dish/${dish.dish_id}/ingredients`) Gestionar Ingredientes
+      form(action=`/dish/${dish.dish_id}/delete` method="POST" style="display: inline")
+        button.btn.btn-danger(type="submit") Eliminar
+
+  .dish-card
+    if dish.description
+      p= dish.description
+    p.dish-type= getDishTypeLabel(dish.type)
+    p.dish-price= formatPriceWithCurrency(dish.price)
+    
+    if dish.ingredients && dish.ingredients.length
+      h3 Ingredientes
+      ul.ingredients-list
+        each ingredient in dish.ingredients
+          li= ingredient.name
+    else
+      p No hay ingredientes definidos.

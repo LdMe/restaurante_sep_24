@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  .page-header
+    h1= menu.name
+    .actions
+      a.btn.btn-secondary(href="/menu") Volver
+      a.btn.btn-primary(href=`/menu/${menu.menu_id}/update`) Editar
+      a.btn.btn-secondary(href=`/menu/${menu.menu_id}/dishes`) Gestionar Platos
+      a.btn.btn-secondary(href=`/menu/${menu.menu_id}/drinks`) Gestionar Bebidas
+      form(action=`/menu/${menu.menu_id}/delete` method="POST" style="display: inline")
+        button.btn.btn-danger(type="submit") Eliminar
+
+  .menu-card
+    p.menu-price= formatPriceWithCurrency(menu.price)
+    
+    if menu.dishes && menu.dishes.length
+      h3 Platos
+      ul.dishes-list
+        each dish in menu.dishes
+          li
+            span= dish.name
+            span.price= formatPriceWithCurrency(dish.price)
+    else
+      p No hay platos en este menú.
+    
+    if menu.drinks && menu.drinks.length
+      h3 Bebidas
+      ul.drinks-list
+        each drink in menu.drinks
+          li
+            span= drink.name
+            span.price= formatPriceWithCurrency(drink.price)
+    else
+      p No hay bebidas en este menú.

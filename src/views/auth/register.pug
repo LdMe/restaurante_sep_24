@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+    h1 Register
+    p(class="error")= error
+    form(action='/register', method='post')
+        label(for='email') Email
+        input(type='email', name='email', placeholder='Email')
+        label(for='name') First Name
+        input(type='text', name='name', placeholder='First Name')
+        label(for='lastName') Last Name
+        input(type='text', name='lastName', placeholder='Last Name')
+        label(for='tel') Phone Number
+        input(type='text', name='tel', placeholder='Phone Number')
+        label(for='password') Password
+        input(type='password', name='password', placeholder='Password')
+        label(for='passwordConfirm') Password Confirmation
+        input(type='password', name='passwordConfirm', placeholder='Password Confirmation')
+        button(type='submit') Register 
+    a(href='/login') Login

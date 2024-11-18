@@ -1,8 +1,18 @@
-extends ../layout
+extends layout
 
-block content 
-    h1 Ingredientes disponibles
-    a(href="/ingredient/new") Nuevo Ingrediente 
-    section(class="ingredient-list")
-        each ingredient in ingredients
-            include card
+block content
+  .page-header
+    h1 Lista de Ingredientes
+    a.btn.btn-primary(href="/ingredient/new") Nuevo Ingrediente
+
+  .ingredient-grid
+    each ingredient in ingredients
+      .ingredient-card
+        h2= ingredient.name
+        .actions
+          a.btn.btn-secondary(href=`/ingredient/${ingredient.ingredient_id}`) Ver
+          a.btn.btn-primary(href=`/ingredient/${ingredient.ingredient_id}/update`) Editar
+          form(action=`/ingredient/${ingredient.ingredient_id}/delete` method="POST" style="display: inline")
+            button.btn.btn-danger(type="submit") Eliminar
+    else
+      p No hay ingredientes disponibles.

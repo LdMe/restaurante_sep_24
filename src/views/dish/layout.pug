@@ -1,0 +1,7 @@
+extends ../layout
+
+block styles 
+    link(rel="stylesheet", href="/css/dish.css")
+block messages 
+    if message
+        .message(class=messageType)= message

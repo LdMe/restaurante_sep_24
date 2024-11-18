@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  if message
+    .message(class=messageType)= message
+
+  .page-header
+    h1 Gestionar Ingredientes: #{dish.name}
+    a.btn.btn-secondary(href=`/dish/${dish.dish_id}`) Volver al plato
+
+  form(action=`/dish/${dish.dish_id}/ingredients?_method=PUT` method="POST")
+    .ingredients-grid
+      each ingredient in allIngredients
+        .ingredient-item
+          label
+            input(
+              type="checkbox"
+              name="ingredients"
+              value=ingredient.ingredient_id
+              checked=dish.ingredients.some(i => i.ingredient_id === ingredient.ingredient_id)
+            )
+            span= ingredient.name
+    
+    .actions
+      button.btn.btn-primary(type="submit") Guardar Cambios
+      a.btn.btn-secondary(href=`/dish/${dish.dish_id}`) Cancelar

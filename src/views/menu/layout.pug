@@ -1,0 +1,8 @@
+extends ../layout
+
+block styles 
+    link(rel="stylesheet", href="/css/menu.css")
+
+block messages 
+    if message
+        .message(class=messageType)= message

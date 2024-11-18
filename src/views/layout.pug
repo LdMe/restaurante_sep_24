@@ -5,9 +5,9 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Restaurante
         link(rel="stylesheet", href="/css/styles.css")
+        block styles
     body 
         include navbar
-        if dishes
-            h1=dishes.length
+        block messages
         block content
 

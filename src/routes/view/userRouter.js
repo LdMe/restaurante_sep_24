@@ -1,20 +1,32 @@
-import {Router} from "express";
-import userController from "../../controllers/user/userController.js"
+import { Router } from "express";
+import userViewController from "../../controllers/user/userViewController.js";
 const router = Router();
 
-router.get("/",userController.getAll);
+// Lista de usuarios
+router.get("/", userViewController.getAll);
 
-router.get("/:id",userController.getById);
+// Formulario de creación
+router.get("/new", userViewController.createForm);
 
-router.get("/new",userController.createForm);
+// Ver detalles de usuario
+router.get("/:id", userViewController.getById);
 
-router.post("/",userController.create);
+// Crear usuario
+router.post("/", userViewController.create);
 
-router.get("/:id/update",userController.updateForm);
+// Formulario de actualización
+router.get("/:id/update", userViewController.updateForm);
 
-router.post("/:id",userController.update);
+// Actualizar usuario
+router.post("/:id/update", userViewController.update);
 
-router.post("/:id/delete",userController.remove);
+// Formulario de cambio de contraseña
+router.get("/:id/update-password", userViewController.updatePasswordForm);
 
+// Actualizar contraseña
+router.post("/:id/update-password", userViewController.updatePassword);
+
+// Eliminar usuario
+router.post("/:id/delete", userViewController.remove);
 
 export default router;

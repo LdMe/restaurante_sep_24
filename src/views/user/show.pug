@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  .page-header
+    h1 Detalles del Usuario
+    .actions
+      a.btn.btn-secondary(href="/user") Volver
+      a.btn.btn-primary(href=`/user/${user.user_id}/update`) Editar
+      a.btn.btn-secondary(href=`/user/${user.user_id}/update-password`) Cambiar Contraseña
+      form(action=`/user/${user.user_id}/delete` method="POST" style="display: inline")
+        button.btn.btn-danger(type="submit") Eliminar
+
+  .user-card
+    p
+      strong Nombre:
+      |  #{user.name}
+    if user.last_name
+      p
+        strong Apellidos:
+        |  #{user.last_name}
+    p
+      strong Email:
+      |  #{user.email}
+    if user.tel
+      p
+        strong Teléfono:
+        |  #{user.tel}
+    p
+      strong Rol:
+      span.role(class=`role-${user.role}`)  #{user.role}

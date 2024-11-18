@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+    h1 Login
+    p(class="error")= error
+    form(action='/login', method='post')
+        label(for='email') Email
+        input(type='email', name='email', placeholder='Email')
+        label(for='password') Password
+        input(type='password', name='password', placeholder='Password')
+        button(type='submit') Login
+    a(href='/register') Register

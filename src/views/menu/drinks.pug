@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  if message
+    .message(class=messageType)= message
+
+  .page-header
+    h1 Gestionar Bebidas del Menú: #{menu.name}
+    a.btn.btn-secondary(href=`/menu/${menu.menu_id}`) Volver al menú
+
+  form(action=`/menu/${menu.menu_id}/drinks` method="POST")
+    .drinks-grid
+      each drink in allDrinks
+        .drink-item
+          label
+            input(
+              type="checkbox"
+              name="drinks"
+              value=drink.drink_id
+              checked=menu.drinks.some(d => d.drink_id === drink.drink_id)
+            )
+            span.drink-name= drink.name
+            span.drink-price= formatPriceWithCurrency(drink.price)
+            if drink.type
+              span.drink-type= drink.type
+    
+    .actions
+      button.btn.btn-primary(type="submit") Guardar Cambios
+      a.btn.btn-secondary(href=`/menu/${menu.menu_id}`) Cancelar

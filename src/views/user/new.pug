@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  h1 Nuevo Usuario
+
+
+  form(action="/user" method="POST")
+    .form-group
+      label(for="name") Nombre *
+      input#name.form-control(type="text" name="name" required)
+
+    .form-group
+      label(for="lastName") Apellidos
+      input#lastName.form-control(type="text" name="lastName")
+
+    .form-group
+      label(for="email") Email *
+      input#email.form-control(type="email" name="email" required)
+
+    .form-group
+      label(for="tel") Teléfono
+      input#tel.form-control(type="tel" name="tel")
+
+    .form-group
+      label(for="password") Contraseña *
+      input#password.form-control(type="password" name="password" required)
+
+    .form-group
+      label(for="role") Rol *
+      select#role.form-control(name="role" required)
+        each role in roles
+          option(value=role)= role
+
+    .actions
+      button.btn.btn-primary(type="submit") Crear
+      a.btn.btn-secondary(href="/user") Cancelar

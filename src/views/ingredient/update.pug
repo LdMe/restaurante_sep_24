@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1 Editar Ingrediente
+
+  form(action=`/ingredient/${ingredient.ingredient_id}/update` method="POST")
+    .form-group
+      label(for="name") Nombre
+      input#name.form-control(type="text" name="name" value=ingredient.name required)
+
+    .actions
+      button.btn.btn-primary(type="submit") Actualizar
+      a.btn.btn-secondary(href=`/ingredient/${ingredient.ingredient_id}`) Cancelar

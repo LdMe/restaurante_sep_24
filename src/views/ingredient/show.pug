@@ -1,7 +1,27 @@
-extends ../layout
+extends layout
 
-block content 
-    h2(id="titulo",class="dish-title title")= dish.name
-    p= dish.description 
-    p= dish.price 
-    p= dish.type
+block content
+  .page-header
+    h1= ingredient.name
+    .actions
+      a.btn.btn-secondary(href="/ingredient") Volver
+      a.btn.btn-primary(href=`/ingredient/${ingredient.ingredient_id}/update`) Editar
+      form(action=`/ingredient/${ingredient.ingredient_id}/delete` method="POST" style="display: inline")
+        button.btn.btn-danger(type="submit") Eliminar
+
+  .ingredient-card
+    if ingredient.providers && ingredient.providers.length
+      h3 Proveedores
+      ul.providers-list
+        each provider in ingredient.providers
+          li= provider.name
+    else
+      p No hay proveedores asignados.
+
+    if ingredient.dishes && ingredient.dishes.length
+      h3 Platos que usan este ingrediente
+      ul.dishes-list
+        each dish in ingredient.dishes
+          li= dish.name
+    else
+      p No hay platos que usen este ingrediente.

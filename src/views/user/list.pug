@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .page-header
+    h1 Lista de Usuarios
+    a.btn.btn-primary(href="/user/new") Nuevo Usuario
+
+  .user-grid
+    each user in users
+      .user-card
+        h2= user.name + ' ' + (user.last_name || '')
+        p.email= user.email
+        if user.tel
+          p.tel= user.tel
+        span.role(class=`role-${user.role}`)= user.role
+        .actions
+          a.btn.btn-secondary(href=`/user/${user.user_id}`) Ver
+          a.btn.btn-primary(href=`/user/${user.user_id}/update`) Editar
+          a.btn.btn-secondary(href=`/user/${user.user_id}/update-password`) Cambiar Contraseña
+          form(action=`/user/${user.user_id}/delete` method="POST" style="display: inline")
+            button.btn.btn-danger(type="submit") Eliminar
+    else
+      p No hay usuarios registrados.

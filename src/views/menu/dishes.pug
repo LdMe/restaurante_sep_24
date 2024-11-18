@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  if message
+    .message(class=messageType)= message
+
+  .page-header
+    h1 Gestionar Platos del Menú: #{menu.name}
+    a.btn.btn-secondary(href=`/menu/${menu.menu_id}`) Volver al menú
+
+  form(action=`/menu/${menu.menu_id}/dishes` method="POST")
+    .dishes-grid
+      each dish in allDishes
+        .dish-item
+          label
+            input(
+              type="checkbox"
+              name="dishes"
+              value=dish.dish_id
+              checked=menu.dishes.some(d => d.dish_id === dish.dish_id)
+            )
+            span.dish-name= dish.name
+            span.dish-price= formatPriceWithCurrency(dish.price)
+            if dish.type
+              span.dish-type= getDishTypeLabel(dish.type)
+    
+    .actions
+      button.btn.btn-primary(type="submit") Guardar Cambios
+      a.btn.btn-secondary(href=`/menu/${menu.menu_id}`) Cancelar

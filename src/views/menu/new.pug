@@ -1,16 +1,42 @@
-extends ../layout
+// views/menu/new.pug
+extends layout
 
-block content 
-    h1 Crear Nuevo Menú 
-    form(id="new-menu" action="/menu/new", method="post") 
-        label(for="name") Nombre del menú *
-        input(id="name", type="text", name="name",placeholder="Ej: Menú del día") 
-        
-        label(for="price") Precio (€) *
-        input(id="price",type="number", name="price",placeholder="0.00",step=".01") 
-        
-     
-        a(href=`/menu`) 
-            button(type="button") Cancelar 
-            button(type="submit") Crear Menú
-    
+block content
+  h1 Nuevo Menú
+
+  form(action="/menu" method="POST")
+    .form-group
+      label(for="name") Nombre
+      input#name.form-control(type="text" name="name" required)
+
+    .form-group
+      label(for="price") Precio
+      input#price.form-control(type="number" name="price" step="0.01" required)
+
+    .form-group
+      label Platos
+      .dishes-grid
+        each dish in dishes
+          .dish-item
+            label
+              input(type="checkbox" name="dishes" value=dish.dish_id)
+              span.dish-name= dish.name
+              span.dish-price= formatPriceWithCurrency(dish.price)
+              if dish.type
+                span.dish-type= getDishTypeLabel(dish.type)
+
+    .form-group
+      label Bebidas
+      .drinks-grid
+        each drink in drinks
+          .drink-item
+            label
+              input(type="checkbox" name="drinks" value=drink.drink_id)
+              span.drink-name= drink.name
+              span.drink-price= formatPriceWithCurrency(drink.price)
+              if drink.type
+                span.drink-type= drink.type
+
+    .actions
+      button.btn.btn-primary(type="submit") Crear
+      a.btn.btn-secondary(href="/menu") Cancelar

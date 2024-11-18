@@ -1,10 +1,26 @@
-extends ../layout
+extends layout
 
-block content 
-    img(src="../../public/resources/gif.gif" alt="elgifquetemereces" style='width:300px; heigth:auto;')
-    h1 Menus disponibles
-    a(href="/menu/new") Nuevo menu 
-    section(class="menu-list")
-        each menu in menus
-            a(href=`/menu/${menu.menu_id}`) 
-                include card
+block content
+  .page-header
+    h1 Lista de Menús
+    a.btn.btn-primary(href="/menu/new") Nuevo Menú
+
+  .menu-grid
+    each menu in menus
+      .menu-card
+        h2= menu.name
+        p.menu-price= formatPriceWithCurrency(menu.price)
+        if menu.dishes && menu.dishes.length
+          h3 Platos:
+          ul
+            each dish in menu.dishes
+              li= dish.name
+        if menu.drinks && menu.drinks.length
+          h3 Bebidas:
+          ul
+            each drink in menu.drinks
+              li= drink.name
+        .actions
+          a.btn.btn-secondary(href=`/menu/${menu.menu_id}`) Ver
+    else
+      p No hay menús disponibles.

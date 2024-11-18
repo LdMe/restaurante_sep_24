@@ -20,11 +20,11 @@ const Client = sequelize.define("client", {
     }
 })
 
-Client.belongsTo(User,{
+/* Client.belongsTo(User,{
     foreignKey: 'user_id',
   });
 User.hasOne(Client,{
     foreignKey: 'user_id',
-  });
+  }); */
 
 export default Client;

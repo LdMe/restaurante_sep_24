@@ -1,7 +1,18 @@
 import express from "express";
 import router from "./routes/router.js";
 
+import * as relations from "./models/relations.js";
+import { formatPrice, formatPriceWithCurrency } from './helpers/priceHelpers.js';
+import { getDishTypeLabel } from './helpers/dishHelpers.js';
+
 const app = express();
+
+// Configurar helpers globales para las vistas
+app.locals.formatPrice = formatPrice;
+app.locals.formatPriceWithCurrency = formatPriceWithCurrency;
+app.locals.getDishTypeLabel = getDishTypeLabel;
+
+
 
 app.set('views', 'src/views');
 app.set('view engine', 'pug');

@@ -1,8 +1,8 @@
-*{
+/* *{
     color:red;
     background-color: #fabada;
 }
-
+ */
 /* .dish-list{
     display: flex;
 } */
@@ -13,4 +13,58 @@
 
 .selected {
     background-color: aqua;
+}
+
+.message {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.message.success {
+    background-color: #e6ffe6;
+    color: #006600;
+}
+
+.message.error {
+    background-color: #ffe6e6;
+    color: #cc0000;
+}
+
+.ingredients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.ingredient-item {
+    padding: 0.5rem;
+}
+
+.ingredient-item label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.ingredient-item input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+}
+
+.ingredients-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+}
+
+.ingredients-list li {
+    padding: 0.5rem;
+    background-color: #f3f4f6;
+    border-radius: 4px;
 }

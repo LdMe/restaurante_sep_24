@@ -1,9 +1,22 @@
-extends ../layout
 
-block content 
-    h1 Platos disponibles
-    a(href="/dish/new") Nuevo plato 
-    section(class="dish-list")
-        each dish in dishes
-            a(href=`/dish/${dish.dish_id}`) 
-                include card
+extends layout
+
+block content
+  .page-header
+    h1 Lista de Platos
+    a.btn.btn-primary(href="/dish/new") Nuevo Plato
+
+  .dish-grid
+    each dish in dishes
+      .dish-card
+        h2= dish.name
+        if dish.description
+          p= dish.description
+        span.dish-type= getDishTypeLabel(dish.type)
+        p.dish-price= formatPriceWithCurrency(dish.price)
+        if dish.ingredients && dish.ingredients.length
+          p Ingredientes: #{dish.ingredients.map(i => i.name).join(', ')}
+        .actions
+          a.btn.btn-secondary(href=`/dish/${dish.dish_id}`) Ver
+    else
+      p No hay platos disponibles.

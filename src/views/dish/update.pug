@@ -1,20 +1,34 @@
-extends ../layout
+extends layout
 
-block content 
-    h1 Actualizar Plato 
-    form(action=`/dish/${dish.dish_id}/update`, method="post") 
-        label(for="name") Nombre del plato *
-        input(id="name", type="text", name="name",placeholder="Ej: Paella Valenciana", value=dish.name) 
-        label(for="description") Descripción 
-        textarea(id="description",name="description",placeholder="Describe los ingredientes y preparación..." )= dish.description  
-        label(for="price") Precio (€) *
-        input(id="price",type="number", name="price",placeholder="0.00",step=".01" value=dish.price/100) 
+block content
+  h1 Editar Plato
+
+  form(action=`/dish/${dish.dish_id}/update` method="POST")
+    .form-group
+      label(for="name") Nombre
+      input#name.form-control(type="text" name="name" value=dish.name required)
+
+    .form-group
+      label(for="description") Descripción
+      textarea#description.form-control(name="description")= dish.description
+
+    .grid-2
+      .form-group
+        label(for="price") Precio (€)
+        input#price.form-control(
+          type="number" 
+          name="price" 
+          step="0.01" 
+          value=formatPrice(dish.price)
+          required
+        )
+
+      .form-group
         label(for="type") Tipo
-        select(id="type",name="type") 
-            each type of types 
-                option(value=type.value, selected=dish.type==type.value)= type.name 
-        a(href=`/dish/${dish.dish_id}`) 
-            button(type="button") Cancelar 
-        button(type="submit") Guardar Plato
-    form(action=`/dish/${dish.dish_id}/delete`, method="post") 
-        button(type="submit") Borrar
+        select#type.form-control(name="type" required)
+          each type in types
+            option(value=type.value selected=type.value===dish.type)= type.name
+
+    .actions
+      button.btn.btn-primary(type="submit") Actualizar
+      a.btn.btn-secondary(href=`/dish/${dish.dish_id}`) Cancelar

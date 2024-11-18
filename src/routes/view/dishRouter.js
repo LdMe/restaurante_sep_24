@@ -12,7 +12,11 @@ router.post("/new",dishViewController.create);
 
 router.get("/:id/update",dishViewController.updateForm);
 
+router.get('/:id/ingredients', dishViewController.ingredientsForm);
+
 router.post("/:id/update",dishViewController.update);
+
+router.post('/:id/ingredients', dishViewController.updateIngredients);
 
 router.post("/:id/delete",dishViewController.remove);
 

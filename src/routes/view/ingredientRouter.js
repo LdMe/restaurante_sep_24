@@ -1,16 +1,26 @@
-import {Router} from "express";
-import ingredientController from "../../controllers/ingredient/ingredientController.js"
+import { Router } from "express";
+import ingredientViewController from "../../controllers/ingredient/ingredientViewController.js";
 const router = Router();
 
-router.get("/",ingredientController.getAll);
+// Lista todos los ingredientes
+router.get("/", ingredientViewController.getAll);
 
-router.get("/new",ingredientController.createForm);
+// Formulario para crear nuevo ingrediente
+router.get("/new", ingredientViewController.createForm);
 
-router.get("/:id",ingredientController.getById);
+// Muestra un ingrediente específico
+router.get("/:id", ingredientViewController.getById);
 
-router.post("/new",ingredientController.create);
+// Crea un nuevo ingrediente
+router.post("/", ingredientViewController.create);
 
-router.post("/:id/delete",ingredientController.remove);
+// Formulario para editar un ingrediente
+router.get("/:id/update", ingredientViewController.updateForm);
 
+// Actualiza un ingrediente
+router.post("/:id/update", ingredientViewController.update);
+
+// Elimina un ingrediente
+router.post("/:id/delete", ingredientViewController.remove);
 
 export default router;
