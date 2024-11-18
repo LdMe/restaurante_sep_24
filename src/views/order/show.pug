@@ -1,0 +1,77 @@
+extends layout
+
+block content
+  .page-header
+    h1 Pedido ##{order.order_id}
+    .actions
+      a.btn.btn-secondary(href="/order") Volver
+      form(action=`/order/${order.order_id}/delete` method="POST" style="display: inline")
+        button.btn.btn-danger(type="submit") Eliminar Pedido
+
+  .order-details
+    .info-section
+      h2 Información General
+      p 
+        strong Local: 
+        span= order.local ? order.local.name : 'No especificado'
+      p 
+        strong Cliente: 
+        span= order.client ? `${order.client.user.name} ${order.client.user.last_name}` : 'No especificado'
+
+    if order.dishes && order.dishes.length
+      .items-section
+        h2 Platos
+        table.items-table
+          thead
+            tr
+              th Plato
+              th Cantidad
+              th Precio Unitario
+              th Subtotal
+          tbody
+            each dish in order.dishes
+              tr
+                td= dish.name
+                td= dish.order_has_dish.quantity
+                td= formatPriceWithCurrency(dish.price)
+                td= formatPriceWithCurrency(dish.price * dish.order_has_dish.quantity)
+
+    if order.drinks && order.drinks.length
+      .items-section
+        h2 Bebidas
+        table.items-table
+          thead
+            tr
+              th Bebida
+              th Cantidad
+              th Precio Unitario
+              th Subtotal
+          tbody
+            each drink in order.drinks
+              tr
+                td= drink.name
+                td= drink.order_has_drink.quantity
+                td= formatPriceWithCurrency(drink.price)
+                td= formatPriceWithCurrency(drink.price * drink.order_has_drink.quantity)
+
+    if order.menus && order.menus.length
+      .items-section
+        h2 Menús
+        table.items-table
+          thead
+            tr
+              th Menú
+              th Cantidad
+              th Precio Unitario
+              th Subtotal
+          tbody
+            each menu in order.menus
+              tr
+                td= menu.name
+                td= menu.order_has_menu.quantity
+                td= formatPriceWithCurrency(menu.price)
+                td= formatPriceWithCurrency(menu.price * menu.order_has_menu.quantity)
+
+    .total-section
+      h2 Total
+      p.total= formatPriceWithCurrency(calculateOrderTotal(order))

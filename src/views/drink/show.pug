@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .page-header
+    h1= drink.name
+    .actions
+      a.btn.btn-secondary(href="/drink") Volver
+      a.btn.btn-primary(href=`/drink/${drink.drink_id}/update`) Editar
+      form(action=`/drink/${drink.drink_id}/delete` method="POST" style="display: inline")
+        button.btn.btn-danger(type="submit") Eliminar
+
+  .drink-card
+    if drink.description
+      p= drink.description
+    p.drink-type= getDrinkTypeLabel(drink.type)
+    p.drink-price= formatPriceWithCurrency(drink.price)

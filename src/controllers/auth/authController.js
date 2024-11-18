@@ -1,35 +1,90 @@
-import userController from "../user/userController.js";
-import { verifyPassword } from "../../config/bcrypt.js";
-import jwt from '../../config/jwt.js';
+import User from "../../models/userModel.js";
+import Client from "../../models/clientModel.js";
+import bcrypt from "bcrypt";
 
-async function register(name,last_name,email,tel,password,passwordConfirm){
-    if(password != passwordConfirm){
-        return {error:"Passwords don't match",status:400};
+async function register(name, last_name, email, tel, password, passwordConfirm) {
+    // Validaciones
+    if (!name || !email || !password || !passwordConfirm) {
+        return { error: "Todos los campos obligatorios deben estar completos" };
     }
-    const oldUser = await userController.getByEmail(email);
-    if(oldUser){
-        return {error:"User with that email already exists",status:400};
 
+    if (password !== passwordConfirm) {
+        return { error: "Las contraseñas no coinciden" };
     }
-    const newUser = await userController.create(name,last_name,email,tel,password);
-    return newUser;
+
+    try {
+        // Verificar si el email ya existe
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
+            return { error: "El email ya está registrado" };
+        }
+
+        // Hash de la contraseña
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Crear usuario
+        const user = await User.create({
+            name,
+            last_name,
+            email,
+            tel,
+            password: hashedPassword,
+            role: "client" // Por defecto, todos los registros son clientes
+        });
+
+        // Crear cliente asociado
+        await Client.create({
+            user_id: user.user_id
+        });
+
+        return { success: true };
+    } catch (error) {
+        console.error(error);
+        return { error: "Error al registrar el usuario" };
+    }
 }
 
-async function login(email,password){
-    const user = await userController.getByEmail(email);
-    if(!user){
-        return {error:"User doesn't exist",status:404};
+async function login(email, password) {
+    try {
+        if (!email || !password) {
+            return { error: "Email y contraseña son requeridos" };
+        }
+
+        // Buscar usuario con sus relaciones
+        const user = await User.findOne({
+            where: { email },
+            include: [{ model: Client }]
+        });
+
+        if (!user) {
+            return { error: "Credenciales inválidas" };
+        }
+
+        // Verificar contraseña
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            return { error: "Credenciales inválidas" };
+        }
+
+        return {
+            success: true,
+            user: {
+                user_id: user.user_id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                client: user.client
+            }
+        };
+    } catch (error) {
+        console.error(error);
+        return { error: "Error al iniciar sesión" };
     }
-    const verified = await verifyPassword(password,user.password);
-    if(!verified){
-        return {error:"Incorrect credentials",status:401};
-    }
-    const token = jwt.sign({user_id:user.user_id,role:user.role});
-    return token;
 }
 
-
-export default{
+export const functions = {
     register,
     login
-}
+};
+
+export default functions;

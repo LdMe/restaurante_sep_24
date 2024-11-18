@@ -1,0 +1,69 @@
+extends layout
+
+block content
+  if message
+    .message(class=messageType)= message
+
+  h1 Nuevo Pedido
+
+  form(action="/order" method="POST")
+    .form-group
+      label(for="localId") Local
+      select#localId.form-control(name="localId" required)
+        option(value="") Seleccione un local
+        each local in locals
+          option(value=local.local_id)= local.name
+
+    h2 Platos
+    .items-grid
+      each dish in dishes
+        .item-card
+          h3= dish.name
+          p= dish.description
+          p.price= formatPriceWithCurrency(dish.price)
+          .quantity-control
+            label(for=`dish-${dish.dish_id}`) Cantidad:
+            input(
+              type="number"
+              id=`dish-${dish.dish_id}`
+              name=`items[dishes][${dish.dish_id}]`
+              min="0"
+              value="0"
+            )
+
+    h2 Bebidas
+    .items-grid
+      each drink in drinks
+        .item-card
+          h3= drink.name
+          p= drink.description
+          p.price= formatPriceWithCurrency(drink.price)
+          .quantity-control
+            label(for=`drink-${drink.drink_id}`) Cantidad:
+            input(
+              type="number"
+              id=`drink-${drink.drink_id}`
+              name=`items[drinks][${drink.drink_id}]`
+              min="0"
+              value="0"
+            )
+
+    h2 Menús
+    .items-grid
+      each menu in menus
+        .item-card
+          h3= menu.name
+          p.price= formatPriceWithCurrency(menu.price)
+          .quantity-control
+            label(for=`menu-${menu.menu_id}`) Cantidad:
+            input(
+              type="number"
+              id=`menu-${menu.menu_id}`
+              name=`items[menus][${menu.menu_id}]`
+              min="0"
+              value="0"
+            )
+
+    .actions
+      button.btn.btn-primary(type="submit") Crear Pedido
+      a.btn.btn-secondary(href="/order") Cancelar

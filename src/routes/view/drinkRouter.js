@@ -1,20 +1,17 @@
-import {Router} from "express";
-import drinkController from "../controllers/drink/drinkController.js"
+// routes/drink/drinkRouter.js
+import { Router } from "express";
+import drinkViewController from "../../controllers/drink/drinkViewController.js";
 const router = Router();
 
-router.get("/",drinkController.getAll);
+// Vista de lista y creación
+router.get("/", drinkViewController.getAll);
+router.get("/new", drinkViewController.createForm);
+router.post("/", drinkViewController.create);
 
-router.get("/:id",drinkController.getById);
-
-router.get("/new",drinkController.createForm);
-
-router.post("/",drinkController.create);
-
-router.get("/:id/update",drinkController.updateForm);
-
-router.post("/:id",drinkController.update);
-
-router.post("/:id/delete",drinkController.remove);
-
+// Operaciones sobre una bebida específica
+router.get("/:id", drinkViewController.getById);
+router.get("/:id/update", drinkViewController.updateForm);
+router.post("/:id/update", drinkViewController.update);
+router.post("/:id/delete", drinkViewController.remove);
 
 export default router;

@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  .page-header
+    h1 Editar Bebida
+    a.btn.btn-secondary(href=`/drink/${drink.drink_id}`) Volver
+
+  form(action=`/drink/${drink.drink_id}/update` method="POST")
+    .form-group
+      label(for="name") Nombre
+      input#name.form-control(type="text" name="name" value=drink.name required)
+
+    .form-group
+      label(for="description") Descripción
+      textarea#description.form-control(name="description")= drink.description
+
+    .grid-2
+      .form-group
+        label(for="price") Precio (€)
+        input#price.form-control(
+          type="number" 
+          name="price" 
+          step="0.01" 
+          value=formatPrice(drink.price)
+          required
+        )
+
+      .form-group
+        label(for="type") Tipo
+        select#type.form-control(name="type" required)
+          each type in types
+            option(value=type.value selected=type.value===drink.type)= type.name
+
+    .actions
+      button.btn.btn-primary(type="submit") Actualizar
+      a.btn.btn-secondary(href=`/drink/${drink.drink_id}`) Cancelar

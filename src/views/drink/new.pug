@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  .page-header
+    h1 Nueva Bebida
+    a.btn.btn-secondary(href="/drink") Volver
+
+  form(action="/drink" method="POST")
+    .form-group
+      label(for="name") Nombre
+      input#name.form-control(type="text" name="name" required)
+
+    .form-group
+      label(for="description") Descripción
+      textarea#description.form-control(name="description")
+
+    .grid-2
+      .form-group
+        label(for="price") Precio (€)
+        input#price.form-control(type="number" name="price" step="0.01" required)
+
+      .form-group
+        label(for="type") Tipo
+        select#type.form-control(name="type" required)
+          each type in types
+            option(value=type.value)= type.name
+
+    .actions
+      button.btn.btn-primary(type="submit") Crear
+      a.btn.btn-secondary(href="/drink") Cancelar

@@ -7,10 +7,18 @@ import menuController from "../menu/menuController.js";
 async function getAll(req, res) {
     try {
         const orders = await orderController.getAll();
-        res.render("order/list", { orders });
+        res.render("order/list", {
+            orders,
+            message: req.query.message,
+            messageType: req.query.messageType
+        });
     } catch (error) {
-        req.flash("error", "Error al cargar los pedidos");
-        res.redirect("/");
+        console.error(error);
+        res.render("order/list", {
+            orders: [],
+            message: "Error al cargar los pedidos",
+            messageType: "error"
+        });
     }
 }
 
@@ -20,12 +28,12 @@ async function getById(req, res) {
         const order = await orderController.getById(id);
         res.render("order/show", { order });
     } catch (error) {
+        console.error(error);
         if (error.message === "ORDER_NOT_FOUND") {
-            req.flash("error", "Pedido no encontrado");
+            res.redirect("/order?message=Pedido no encontrado&messageType=error");
         } else {
-            req.flash("error", "Error al cargar el pedido");
+            res.redirect("/order?message=Error al cargar el pedido&messageType=error");
         }
-        res.redirect("/order");
     }
 }
 
@@ -43,28 +51,29 @@ async function createForm(req, res) {
             dishes, 
             drinks, 
             menus,
-            clientId: req.user.client.client_id // Asumiendo que usas autenticación
+            clientId: req.session.user.client_id, // Usando session en lugar de passport
+            message: req.query.message,
+            messageType: req.query.messageType
         });
     } catch (error) {
-        req.flash("error", "Error al cargar el formulario");
-        res.redirect("/order");
+        console.error(error);
+        res.redirect("/order?message=Error al cargar el formulario&messageType=error");
     }
 }
 
 async function create(req, res) {
     try {
         const { localId, items } = req.body;
-        const clientId = req.user.client.client_id; // Asumiendo que usas autenticación
+        const clientId = req.session.user.client_id; // Usando session en lugar de passport
         
         if (!localId || !items) {
-            req.flash("error", "Faltan campos requeridos");
-            return res.redirect("/order/new");
+            return res.redirect("/order/new?message=Faltan campos requeridos&messageType=error");
         }
 
         await orderController.create(clientId, localId, items);
-        req.flash("success", "Pedido creado correctamente");
-        res.redirect("/order");
+        res.redirect("/order?message=Pedido creado correctamente&messageType=success");
     } catch (error) {
+        console.error(error);
         let errorMessage = "Error al crear el pedido";
         switch (error.message) {
             case "LOCAL_NOT_FOUND":
@@ -77,19 +86,26 @@ async function create(req, res) {
                 errorMessage = "Tipo de ítem no válido";
                 break;
         }
-        req.flash("error", errorMessage);
-        res.redirect("/order/new");
+        res.redirect(`/order/new?message=${errorMessage}&messageType=error`);
     }
 }
 
 async function getOrdersByClient(req, res) {
     try {
-        const clientId = req.user.client.client_id; // Asumiendo que usas autenticación
+        const clientId = req.session.user.client_id; // Usando session en lugar de passport
         const orders = await orderController.getOrdersByClient(clientId);
-        res.render("order/client-orders", { orders });
+        res.render("order/client-orders", {
+            orders,
+            message: req.query.message,
+            messageType: req.query.messageType
+        });
     } catch (error) {
-        req.flash("error", "Error al cargar los pedidos");
-        res.redirect("/");
+        console.error(error);
+        res.render("order/client-orders", {
+            orders: [],
+            message: "Error al cargar los pedidos",
+            messageType: "error"
+        });
     }
 }
 
@@ -97,10 +113,18 @@ async function getOrdersByLocal(req, res) {
     try {
         const localId = parseInt(req.params.localId);
         const orders = await orderController.getOrdersByLocal(localId);
-        res.render("order/local-orders", { orders });
+        res.render("order/local-orders", {
+            orders,
+            message: req.query.message,
+            messageType: req.query.messageType
+        });
     } catch (error) {
-        req.flash("error", "Error al cargar los pedidos");
-        res.redirect("/");
+        console.error(error);
+        res.render("order/local-orders", {
+            orders: [],
+            message: "Error al cargar los pedidos",
+            messageType: "error"
+        });
     }
 }
 
@@ -108,15 +132,14 @@ async function remove(req, res) {
     try {
         const id = parseInt(req.params.id);
         await orderController.remove(id);
-        req.flash("success", "Pedido eliminado correctamente");
-        res.redirect("/order");
+        res.redirect("/order?message=Pedido eliminado correctamente&messageType=success");
     } catch (error) {
+        console.error(error);
         if (error.message === "ORDER_NOT_FOUND") {
-            req.flash("error", "Pedido no encontrado");
+            res.redirect("/order?message=Pedido no encontrado&messageType=error");
         } else {
-            req.flash("error", "Error al eliminar el pedido");
+            res.redirect("/order?message=Error al eliminar el pedido&messageType=error");
         }
-        res.redirect("/order");
     }
 }
 

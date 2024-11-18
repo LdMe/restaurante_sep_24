@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  if message
+    .message(class=messageType)= message
+    
+  .page-header
+    h1 Pedidos del Local
+
+  .orders-grid
+    each order in orders
+      .order-card
+        h2 Pedido ##{order.order_id}
+        p Cliente: #{order.client ? `${order.client.user.name} ${order.client.user.last_name}` : 'No especificado'}
+        p Fecha: #{formatDate(order.createdAt)}
+        .order-summary
+          if order.dishes && order.dishes.length
+            p #{order.dishes.length} platos
+          if order.drinks && order.drinks.length
+            p #{order.drinks.length} bebidas
+          if order.menus && order.menus.length
+            p #{order.menus.length} menús
+        .actions
+          a.btn.btn-secondary(href=`/order/${order.order_id}`) Ver Detalles
+    else
+      p No hay pedidos para este local.

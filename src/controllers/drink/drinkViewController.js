@@ -1,20 +1,24 @@
+// controllers/drink/drinkViewController.js
 import drinkController from "./drinkController.js";
+import { drinkTypeLabels } from "../../helpers/drinkHelpers.js";
 
-const types = [
-    { value: "juice", name: "Zumo" },
-    { value: "water", name: "Agua" },
-    { value: "alcoholic", name: "Bebida alcohólica" },
-    { value: "infusion", name: "Infusión" },
-    { value: "soft-drink", name: "Refresco" }
-];
+const types = Object.entries(drinkTypeLabels).map(([value, name]) => ({ value, name }));
 
 async function getAll(req, res) {
     try {
         const drinks = await drinkController.getAll();
-        res.render("drink/list", { drinks });
+        res.render("drink/list", {
+            drinks,
+            message: req.query.message,
+            messageType: req.query.messageType
+        });
     } catch (error) {
-        req.flash("error", "Error al cargar las bebidas");
-        res.redirect("/");
+        console.error(error);
+        res.render("drink/list", {
+            drinks: [],
+            message: "Error al cargar las bebidas",
+            messageType: "error"
+        });
     }
 }
 
@@ -24,40 +28,46 @@ async function getById(req, res) {
         const drink = await drinkController.getById(id);
         res.render("drink/show", { drink });
     } catch (error) {
+        console.error(error);
         if (error.message === "DRINK_NOT_FOUND") {
-            req.flash("error", "Bebida no encontrada");
+            res.redirect("/drink?message=Bebida no encontrada&messageType=error");
         } else {
-            req.flash("error", "Error al cargar la bebida");
+            res.redirect("/drink?message=Error al cargar la bebida&messageType=error");
         }
-        res.redirect("/drink");
     }
 }
 
 async function createForm(req, res) {
-    res.render("drink/new", { types });
+    res.render("drink/new", {
+        types,
+        message: req.query.message,
+        messageType: req.query.messageType
+    });
 }
 
 async function create(req, res) {
     try {
         const { name, description, price, type } = req.body;
-        
+
         if (!name || !price || !type) {
-            req.flash("error", "Faltan campos requeridos");
-            return res.redirect("/drink/new");
+            return res.render("drink/new", {
+                types,
+                message: "Faltan campos requeridos",
+                messageType: "error"
+            });
         }
 
         await drinkController.create(name, description, price, type);
-        req.flash("success", "Bebida creada correctamente");
-        res.redirect("/drink");
+        res.redirect("/drink?message=Bebida creada correctamente&messageType=success");
     } catch (error) {
+        console.error(error);
         let errorMessage = "Error al crear la bebida";
         if (error.message === "INVALID_PRICE") {
             errorMessage = "El precio debe ser mayor que 0";
         } else if (error.message === "INVALID_DRINK_TYPE") {
             errorMessage = "Tipo de bebida no válido";
         }
-        req.flash("error", errorMessage);
-        res.redirect("/drink/new");
+        res.redirect(`/drink/new?message=${errorMessage}&messageType=error`);
     }
 }
 
@@ -65,14 +75,15 @@ async function updateForm(req, res) {
     try {
         const id = parseInt(req.params.id);
         const drink = await drinkController.getById(id);
-        res.render("drink/update", { drink, types });
+        res.render("drink/update", {
+            drink,
+            types,
+            message: req.query.message,
+            messageType: req.query.messageType
+        });
     } catch (error) {
-        if (error.message === "DRINK_NOT_FOUND") {
-            req.flash("error", "Bebida no encontrada");
-        } else {
-            req.flash("error", "Error al cargar el formulario");
-        }
-        res.redirect("/drink");
+        console.error(error);
+        res.redirect("/drink?message=Error al cargar el formulario&messageType=error");
     }
 }
 
@@ -80,27 +91,23 @@ async function update(req, res) {
     try {
         const id = parseInt(req.params.id);
         const { name, description, price, type } = req.body;
-        
+
         if (!name || !price || !type) {
-            req.flash("error", "Faltan campos requeridos");
-            return res.redirect(`/drink/update/${id}`);
+            return res.redirect(`/drink/update/${id}?message=Faltan campos requeridos&messageType=error`);
         }
 
         await drinkController.update(id, name, description, price, type);
-        req.flash("success", "Bebida actualizada correctamente");
-        res.redirect("/drink");
+        res.redirect("/drink?message=Bebida actualizada correctamente&messageType=success");
     } catch (error) {
+        console.error(error);
         const id = parseInt(req.params.id);
         let errorMessage = "Error al actualizar la bebida";
-        if (error.message === "DRINK_NOT_FOUND") {
-            return res.redirect("/drink");
-        } else if (error.message === "INVALID_PRICE") {
+        if (error.message === "INVALID_PRICE") {
             errorMessage = "El precio debe ser mayor que 0";
         } else if (error.message === "INVALID_DRINK_TYPE") {
             errorMessage = "Tipo de bebida no válido";
         }
-        req.flash("error", errorMessage);
-        res.redirect(`/drink/update/${id}`);
+        res.redirect(`/drink/update/${id}?message=${errorMessage}&messageType=error`);
     }
 }
 
@@ -108,15 +115,10 @@ async function remove(req, res) {
     try {
         const id = parseInt(req.params.id);
         await drinkController.remove(id);
-        req.flash("success", "Bebida eliminada correctamente");
-        res.redirect("/drink");
+        res.redirect("/drink?message=Bebida eliminada correctamente&messageType=success");
     } catch (error) {
-        if (error.message === "DRINK_NOT_FOUND") {
-            req.flash("error", "Bebida no encontrada");
-        } else {
-            req.flash("error", "Error al eliminar la bebida");
-        }
-        res.redirect("/drink");
+        console.error(error);
+        res.redirect("/drink?message=Error al eliminar la bebida&messageType=error");
     }
 }
 

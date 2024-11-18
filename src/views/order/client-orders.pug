@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  if message
+    .message(class=messageType)= message
+    
+  .page-header
+    h1 Mis Pedidos
+    a.btn.btn-primary(href="/order/new") Nuevo Pedido
+
+  .orders-grid
+    each order in orders
+      .order-card
+        h2 Pedido ##{order.order_id}
+        p Local: #{order.local ? order.local.name : 'No especificado'}
+        p Fecha: #{formatDate(order.createdAt)}
+        .order-summary
+          if order.dishes && order.dishes.length
+            p #{order.dishes.length} platos
+          if order.drinks && order.drinks.length
+            p #{order.drinks.length} bebidas
+          if order.menus && order.menus.length
+            p #{order.menus.length} menús
+        .actions
+          a.btn.btn-secondary(href=`/order/${order.order_id}`) Ver Detalles
+    else
+      p No has realizado ningún pedido aún.

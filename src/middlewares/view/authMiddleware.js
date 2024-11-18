@@ -1,4 +1,4 @@
-import jwt from "../config/jwt.js"
+/* import jwt from "../config/jwt.js"
 
 async function isAuthenticated(req,res,next){
     const authorization = req.headers.authorization;
@@ -50,4 +50,42 @@ export {
     isAuthenticated,
     isAdmin,
     isAdminOrSelfUser
+} */
+
+// middleware/authMiddleware.js
+export function isAuthenticated(req, res, next) {
+    if (req.session && req.session.user) {
+        return next();
+    }
+    res.redirect('/login?message=Debes iniciar sesión&messageType=error');
 }
+
+export function isClient(req, res, next) {
+    if (req.session && req.session.user && req.session.user.role === 'client') {
+        return next();
+    }
+    res.redirect('/?message=No tienes permiso para acceder a esta página&messageType=error');
+}
+
+export function isStaff(req, res, next) {
+    if (req.session && req.session.user && (req.session.user.role === 'staff' || req.session.user.role === 'admin')) {
+        return next();
+    }
+    res.redirect('/?message=No tienes permiso para acceder a esta página&messageType=error');
+}
+
+export function isAdmin(req, res, next) {
+    if (req.session && req.session.user && req.session.user.role === 'admin') {
+        return next();
+    }
+    res.redirect('/?message=No tienes permiso para acceder a esta página&messageType=error');
+}
+
+export const middleware = {
+    isAuthenticated,
+    isClient,
+    isStaff,
+    isAdmin
+};
+
+export default middleware;

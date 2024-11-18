@@ -1,12 +1,32 @@
 extends ../layout
 
 block content
-    h1 Login
-    p(class="error")= error
-    form(action='/login', method='post')
-        label(for='email') Email
-        input(type='email', name='email', placeholder='Email')
-        label(for='password') Password
-        input(type='password', name='password', placeholder='Password')
-        button(type='submit') Login
-    a(href='/register') Register
+  .auth-container
+    .auth-card
+      h1.auth-title Iniciar Sesión
+
+      if message
+        .message(class=messageType)= message
+
+      form.auth-form(action="/login" method="POST")
+        .form-group
+          label(for="email") Email
+          input#email.form-control(
+            type="email"
+            name="email"
+            required
+            placeholder="tucorreo@ejemplo.com"
+          )
+
+        .form-group
+          label(for="password") Contraseña
+          input#password.form-control(
+            type="password"
+            name="password"
+            required
+            placeholder="Tu contraseña"
+          )
+
+        .form-actions
+          button.btn.btn-primary.btn-block(type="submit") Iniciar Sesión
+          a.btn.btn-link.btn-block(href="/register") ¿No tienes cuenta? Regístrate

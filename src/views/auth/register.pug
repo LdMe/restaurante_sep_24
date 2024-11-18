@@ -1,20 +1,69 @@
 extends ../layout
 
 block content
-    h1 Register
-    p(class="error")= error
-    form(action='/register', method='post')
-        label(for='email') Email
-        input(type='email', name='email', placeholder='Email')
-        label(for='name') First Name
-        input(type='text', name='name', placeholder='First Name')
-        label(for='lastName') Last Name
-        input(type='text', name='lastName', placeholder='Last Name')
-        label(for='tel') Phone Number
-        input(type='text', name='tel', placeholder='Phone Number')
-        label(for='password') Password
-        input(type='password', name='password', placeholder='Password')
-        label(for='passwordConfirm') Password Confirmation
-        input(type='password', name='passwordConfirm', placeholder='Password Confirmation')
-        button(type='submit') Register 
-    a(href='/login') Login
+  .auth-container
+    .auth-card
+      h1.auth-title Registro de Usuario
+
+      if message
+        .message(class=messageType)= message
+
+      form.auth-form(action="/register" method="POST")
+        .form-group
+          label(for="name") Nombre *
+          input#name.form-control(
+            type="text"
+            name="name"
+            required
+            placeholder="Tu nombre"
+          )
+
+        .form-group
+          label(for="last_name") Apellidos
+          input#last_name.form-control(
+            type="text"
+            name="last_name"
+            placeholder="Tus apellidos"
+          )
+
+        .form-group
+          label(for="email") Email *
+          input#email.form-control(
+            type="email"
+            name="email"
+            required
+            placeholder="tucorreo@ejemplo.com"
+          )
+
+        .form-group
+          label(for="tel") Teléfono
+          input#tel.form-control(
+            type="tel"
+            name="tel"
+            placeholder="Tu número de teléfono"
+          )
+
+        .form-group
+          label(for="password") Contraseña *
+          input#password.form-control(
+            type="password"
+            name="password"
+            required
+            placeholder="Tu contraseña"
+          )
+
+        .form-group
+          label(for="passwordConfirm") Confirmar Contraseña *
+          input#passwordConfirm.form-control(
+            type="password"
+            name="passwordConfirm"
+            required
+            placeholder="Repite tu contraseña"
+          )
+
+        .form-actions
+          button.btn.btn-primary.btn-block(type="submit") Registrarse
+          a.btn.btn-link.btn-block(href="/login") ¿Ya tienes cuenta? Inicia sesión
+
+        p.required-fields
+          small * Campos obligatorios
