@@ -1,5 +1,5 @@
 import {Router} from "express";
-import menuViewController from "../controllers/menu/menuViewController.js"
+import menuViewController from "../../controllers/menu/menuViewController.js"
 const router = Router();
 
 router.get("/",menuViewController.getAll);

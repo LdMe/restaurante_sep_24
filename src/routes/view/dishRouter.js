@@ -1,5 +1,5 @@
 import {Router} from "express";
-import dishViewController from "../controllers/dish/dishViewController.js"
+import dishViewController from "../../controllers/dish/dishViewController.js"
 const router = Router();
 
 router.get("/",dishViewController.getAll);

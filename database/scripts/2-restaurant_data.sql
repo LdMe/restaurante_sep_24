@@ -6,12 +6,12 @@ INSERT INTO `dish` (`name`, `description`, `price`, `type`) VALUES
 ('Biftek de Otro Mundo', 'Carne más tierna que un abrazo de abuela', 22, 'second-course'),
 ('Helado Espacial', 'Con un sabor que te lleva fuera de órbita', 6, 'dessert');
 
-INSERT INTO `user` (`name`, `last_name`, `email`, `tel`, `role`) VALUES
-('Luis', 'Sinprisas', 'luis@clientexample.com', '555-1234', 'client'),
-('María', 'Rápida', 'maria@clientexample.com', '555-5678', 'staff'),
-('Juan', 'ElAdmin', 'juan@adminexample.com', '555-8765', 'admin'),
-('Ana', 'Lalala', 'ana@clientexample.com', '555-4321', 'client'),
-('Carlos', 'SiempreTarde', 'carlos@clientexample.com', '555-0001', 'staff');
+INSERT INTO `user` (`name`, `last_name`, `email`, `tel`, `role`,`password`) VALUES
+('Luis', 'Sinprisas', 'luis@clientexample.com', '555-1234', 'client','$2b$10$0lvg0ULpKRIefkhsvOmtOeJzGdijmOG8bCM5OQDtP/qN.NXBrsypm'),
+('María', 'Rápida', 'maria@clientexample.com', '555-5678', 'staff','$2b$10$0lvg0ULpKRIefkhsvOmtOeJzGdijmOG8bCM5OQDtP/qN.NXBrsypm'),
+('Juan', 'ElAdmin', 'juan@adminexample.com', '555-8765', 'admin','$2b$10$0lvg0ULpKRIefkhsvOmtOeJzGdijmOG8bCM5OQDtP/qN.NXBrsypm'),
+('Ana', 'Lalala', 'ana@clientexample.com', '555-4321', 'client','$2b$10$0lvg0ULpKRIefkhsvOmtOeJzGdijmOG8bCM5OQDtP/qN.NXBrsypm'),
+('Carlos', 'SiempreTarde', 'carlos@clientexample.com', '555-0001', 'staff','$2b$10$0lvg0ULpKRIefkhsvOmtOeJzGdijmOG8bCM5OQDtP/qN.NXBrsypm');
 
 INSERT INTO `provider` (`name`, `email`, `address`) VALUES
 ('Proveedores Manolo', 'manolo@providers.com', 'Calle del Suministro 42'),

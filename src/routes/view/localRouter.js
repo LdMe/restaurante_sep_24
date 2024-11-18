@@ -1,5 +1,5 @@
 import {Router} from "express";
-import localController from "../controllers/local/localController.js"
+import localController from "../../controllers/local/localController.js"
 const router = Router();
 
 router.get("/",localController.getAll);

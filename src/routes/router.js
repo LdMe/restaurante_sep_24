@@ -1,12 +1,12 @@
 import { Router } from "express";
-import dishRouter from "./dishRouter.js"
-import menuRouter from "./menuRouter.js"
-//import ingredientRouter from "./ingredientRouter.js";
+import apiRouter from "./api/router.js"
+import viewRouter from "./view/router.js"
+
+
 const router = Router();
 
-router.use("/dish",dishRouter);
-//router.use("/ingredient",ingredientRouter);
+router.use("/",viewRouter);
 
-router.use("/menu",menuRouter);
+router.use("/api",apiRouter);
 
 export default router;
