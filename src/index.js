@@ -9,6 +9,11 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+app.use(function (req, res, next) {
+    res.locals.user = req.session.user || null;
+    next();
+ });// middleware para sacar informacion de sesion en vistas
+ 
 app.set('views', 'src/views');
 app.set('view engine', 'pug');
 

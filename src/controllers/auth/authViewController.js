@@ -1,19 +1,14 @@
 import authController from "./authController.js";
-import jwt from "../../config/jwt.js";
 
 async function register(req, res) {
     try {
         const { name, email, last_name, tel, password, passwordConfirm } = req.body;
         const result = await authController.register(name, last_name, email, tel, password, passwordConfirm);
-        res.json(result);
+        res.redirect("/login?message=usuario registrado correctamente&messageType=success");
     } catch (error) {
         console.error(error);
-        if (error.status) {
-            res.status(error.status);
-        } else {
-            res.status(500);
-        }
-        res.json({ error: error.message });
+        const url=`/register?message=${error.message}&messageType=error`
+        res.redirect(url);
     }
 }
 

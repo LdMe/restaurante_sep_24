@@ -1,0 +1,21 @@
+extends layout 
+
+
+block content 
+    h1 Registro
+    form(class="login-form",action="/register", method="post") 
+        label(for="name") Nombre
+        input(type="text", id="name",name="name" required)
+        label(for="last_name") Apellido 
+        input(type="text",id="last_name",name="last_name") 
+        label(for="email") Email 
+        input(id="email",type="text", name="email",placeholder="Introdude tu email" required)
+        label(for="tel") Teléfono 
+        input(type="text",id="tel",name="tel") 
+        label(for="password") Contraseña
+        input(id="password", type="password", name="password" required)
+        label(for="passwordConfirm") Confirma la contraseña
+        input(type="password",id="passwordConfirm",name="passwordConfirm" required)
+        button(type="submit") Acceder  
+    a(href="/login") Ya tienes cuenta? Inicia sesión 
+    

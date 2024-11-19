@@ -7,7 +7,10 @@ nav
             a(href="/dish") Dishes 
         li
             a(href="/menu") Menuses 
-        li 
-            a(href="/login") Login 
-        li  
-            a(href="/logout") Log out 
+        if user 
+            li  
+                a(href="/logout") Log out 
+        else
+            li 
+                a(href="/login") Login 
+        

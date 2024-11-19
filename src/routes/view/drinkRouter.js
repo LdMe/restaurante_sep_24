@@ -1,5 +1,5 @@
 import {Router} from "express";
-import drinkController from "../controllers/drink/drinkController.js"
+import drinkController from "../../controllers/drink/drinkController.js"
 const router = Router();
 
 router.get("/",drinkController.getAll);

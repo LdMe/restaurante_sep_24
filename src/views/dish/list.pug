@@ -2,7 +2,8 @@ extends ../layout
 
 block content 
     h1 Platos disponibles
-    a(href="/dish/new") Nuevo plato 
+    if user && user.role==="admin"
+        a(href="/dish/new") Nuevo plato 
     section(class="dish-list")
         each dish in dishes
             a(href=`/dish/${dish.dish_id}`) 

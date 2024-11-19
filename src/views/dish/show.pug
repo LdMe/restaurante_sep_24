@@ -7,5 +7,6 @@ block content
         each ingredient in dish.ingredients 
             li
                 p= ingredient.name
-    a(href=`/dish/${dish.dish_id}/update`)
-        button Editar 
+    if user && user.role==="admin"
+        a(href=`/dish/${dish.dish_id}/update`)
+            button Editar 
