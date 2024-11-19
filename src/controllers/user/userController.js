@@ -2,6 +2,7 @@
 import userModel from "../../models/userModel.js";
 import Client from "../../models/clientModel.js";
 import { hashPassword } from "../../config/bcrypt.js";
+import error from "../../helpers/errors.js";
 
 
 async function getAll(){
@@ -28,6 +29,10 @@ async function getByEmail(email){
 }
 
 async function create(name,last_name,email,tel,password,role="client"){
+    const oldUser = await getByEmail(email);
+    if(oldUser){
+        throw new error.EMAIL_ALREADY_EXISTS();
+    }
     const hash = await hashPassword(password);
     const newUser = await userModel.create({
       name,
@@ -44,7 +49,7 @@ async function create(name,last_name,email,tel,password,role="client"){
 async function update(id,name,last_name,email,tel,password){
     const user = await userModel.findByPk(id);
     if(!user){
-        return {error:"user not found",status:404};
+        throw new error.USER_NOT_FOUND();
     }
     user.name=name;
     user.last_name=last_name;
@@ -60,8 +65,8 @@ async function update(id,name,last_name,email,tel,password){
 
 async function remove(id){
     const userToRemove = await userModel.findByPk(id);
-    if(!userToRemove){
-        return {error:"user not found",status:404};
+    if(!user){
+        throw new error.USER_NOT_FOUND();
     }
     await userToRemove.destroy();
     return userToRemove;

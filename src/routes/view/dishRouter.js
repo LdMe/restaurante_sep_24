@@ -1,8 +1,9 @@
 import {Router} from "express";
-import dishViewController from "../../controllers/dish/dishViewController.js"
+import dishViewController from "../../controllers/dish/dishViewController.js";
+import { isAuthenticated } from "../../middlewares/view/authMiddleware.js";
 const router = Router();
 
-router.get("/",dishViewController.getAll);
+router.get("/",isAuthenticated,dishViewController.getAll);
 
 router.get("/new",dishViewController.createForm);
 

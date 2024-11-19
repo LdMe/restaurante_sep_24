@@ -1,4 +1,4 @@
-import jwt from "../config/jwt.js"
+import jwt from "../../config/jwt.js"
 
 async function isAuthenticated(req,res,next){
     const authorization = req.headers.authorization;

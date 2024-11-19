@@ -1,12 +1,12 @@
 import {Router} from "express";
 import userApiController from "../../controllers/user/userApiController.js"
-import { isAuthenticated,isAdmin, isAdminOrSelfUser} from "../../middlewares/authMiddleware.js";
+import { isAuthenticated,isAdmin, isAdminOrSelfUser} from "../../middlewares/api/authMiddleware.js";
 
 const router = Router();
 
-router.get("/",isAuthenticated,userApiController.getAll);
+router.get("/",userApiController.getAll);
 
-router.get("/:id",isAdminOrSelfUser,userApiController.getById);
+router.get("/:id",userApiController.getById);
 
 
 router.post("/",userApiController.create);

@@ -1,0 +1,11 @@
+extends layout 
+
+
+block content 
+    h1 Login
+    form(class="login-form",action="/login", method="post") 
+        label(for="email") Email 
+        input(id="email",type="text", name="email",placeholder="Introdude tu email")
+        label(for="password") Contraseña
+        input(id="password", type="password", name="password")
+        button(type="submit") Acceder  
