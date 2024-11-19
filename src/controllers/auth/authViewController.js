@@ -29,6 +29,7 @@ async function login(req, res) {
         req.session.user={
             email:user.email,
             user_id:user.user_id,
+            client_id:user.client.client_id,
             role:user.role
         }
         const url=(`/?message=sesión iniciada correctamente&messageType=success`)
