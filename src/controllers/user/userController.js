@@ -2,7 +2,7 @@
 import userModel from "../../models/userModel.js";
 import Client from "../../models/clientModel.js";
 import { hashPassword } from "../../config/bcrypt.js";
-import error from "../../helpers/errors.js";
+import error from "../../helpers/errors/userErrors.js";
 
 
 async function getAll(){
@@ -23,7 +23,8 @@ async function getByEmail(email){
     const user = await userModel.findOne({
         where: {
             email: email
-        }
+        },
+        include: Client
     })
     return user;
 }

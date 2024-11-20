@@ -1,5 +1,5 @@
 import {DataTypes} from "sequelize";
-import sequelize from "../config/sequelize";
+import sequelize from "../config/sequelize.js";
 
 const local = sequelize.define("local",{
     local_id:{
@@ -17,7 +17,7 @@ const local = sequelize.define("local",{
         allowNull:false
     },
     phone:{
-        type: DataTypes.VAR,
+        type: DataTypes.STRING,
         allowNull:true
     }
 

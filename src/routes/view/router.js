@@ -2,6 +2,7 @@ import { Router } from "express";
 import dishRouter from "./dishRouter.js"
 import menuRouter from "./menuRouter.js"
 import authRouter from "./authRouter.js";
+import orderRouter from "./orderRouter.js";
 
 //import ingredientRouter from "./ingredientRouter.js";
 const router = Router();
@@ -14,6 +15,8 @@ router.use("/dish",dishRouter);
 //router.use("/ingredient",ingredientRouter);
 
 router.use("/menu",menuRouter);
+
+router.use("/order",orderRouter);
 
 router.use("/",authRouter);
 

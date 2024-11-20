@@ -8,6 +8,13 @@ function isAuthenticated(req,res,next){
         res.redirect("/login")
     }
 }
+function isClient(req,res,next){
+    if(req.session.user && req.session.user.role==="client"){
+        next();
+    }else{
+        res.redirect("/login")
+    }
+}
 
 function isStaff(req,res,next){
     if(req.session.user && req.session.user.role==="staff"){
@@ -30,5 +37,6 @@ function isAdmin(req,res,next){
 export {
     isAuthenticated,
     isStaff,
-    isAdmin
+    isAdmin,
+    isClient
 }

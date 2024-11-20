@@ -1,6 +1,6 @@
 import userController from "../user/userController.js";
 import { verifyPassword } from "../../config/bcrypt.js";
-import error from "../../helpers/errors.js";
+import error from "../../helpers/errors/userErrors.js";
 
 async function register(name,last_name,email,tel,password,passwordConfirm){
     if(password != passwordConfirm){

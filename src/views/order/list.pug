@@ -1,0 +1,22 @@
+include ../layout
+
+each order in orders 
+    h2 Pedido #{order.order_id}
+    p Estado: #{order.status}
+    if order.status ==="open"
+        form(action="/order/close", method="post")
+            button Comprar 
+    h2 Platos 
+    each dish in order.dishes 
+        p= dish.name 
+        p Cantidad:
+        if order.status ==="open"
+            form(action="/order/dish/update", method="post") 
+                input(type="hidden" name="dish_id" value=dish.dish_id)
+                input(type="number" name="quantity" placeholder="cantidad de productos" value=dish.order_has_dish.quantity)
+                button(type="submit") Guardar
+            form(action="/order/dish/delete", method="post") 
+                input(type="hidden" name="dish_id" value=dish.dish_id)
+                button Borrar
+        else 
+            p= dish.order_has_dish.quantity

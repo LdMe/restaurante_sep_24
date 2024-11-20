@@ -2,3 +2,9 @@ article(class="dish")
     h2(id="titulo" class="dish-title title")= dish.name
     p #{dish.price / 100}€
     p= dish.type
+
+    
+    form(action="/order/dish", method="post") 
+        input(type="hidden" name="dish_id" value=dish.dish_id)
+        input(type="number" name="quantity" placeholder="cantidad de productos" value=1 min=1)
+        button(type="submit") Añadir al carrito
