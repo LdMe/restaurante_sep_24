@@ -28,6 +28,18 @@ async function create(name,description,price,type,ingredients){
    return newDish;
 }
 
+/**
+ * Get a dish with its ingredients.
+ * @param {number} id - The id of the dish
+ * @returns {Promise<DishModel>} The dish with its ingredients
+ */
+async function getDishWithIngredients(id) {
+  const dish = await dishModel.findByPk(id, {
+    include: Ingredient,
+  });
+  return dish;
+}
+
 async function addIngredients(id,ingredients){
   const dish = await dishModel.findByPk(id);
   await dish.addIngredients(ingredients);

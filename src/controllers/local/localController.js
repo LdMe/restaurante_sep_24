@@ -22,14 +22,13 @@ async function create(name, address, phone){
     return local;
 }
 
-async function update(id, name, address, phone){
-         const local = await localModel.findByPk(id);    
-        local.name= name,
-        local.address= address,
-        local.phone = phone
-        await local.save()
-       
-        return local;
+async function update(id,name, address, phone){
+    const local = await localModel.findByPk(id);
+    local.name=name;
+    local.address=address;
+    local.phone=phone;
+    await local.save();
+    return local;
 }
 
 async function remove(id){

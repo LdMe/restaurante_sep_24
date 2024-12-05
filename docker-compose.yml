@@ -1,7 +1,7 @@
 services:
 
   db:
-    container_name: restaurante_mysql
+    container_name: ${DB_HOST}
     image: mysql:8.0
     restart: unless-stopped
     environment:
@@ -10,7 +10,19 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
     ports:
-      - 3308:3306
+      - ${DB_PORT}:3306
     volumes:
       - ./database/scripts:/docker-entrypoint-initdb.d:ro
       - ./database/conf/mycustom.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - /var/lib/mysql
+  backend:
+    build: .
+    container_name: ${APP_HOST}
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:3000
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules

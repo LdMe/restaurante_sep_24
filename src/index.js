@@ -1,9 +1,13 @@
 import express from "express";
 import router from "./routes/router.js";
 import session from "express-session";
-
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
+import swaggerDoc from "./openapi.json" with { type: "json" };
+import cors from "cors";
 const app = express();
-
+app.use(cors());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
